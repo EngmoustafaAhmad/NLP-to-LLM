@@ -1,50 +1,78 @@
-# 🛑 إزالة الكلمات الشائعة (Stop Words) باستخدام NLTK
+<div dir="rtl">
 
-في معالجة النصوص (NLP)، **Stop Words** هي الكلمات الشائعة التي عادة لا تحمل معنى كبير في التحليل، مثل: "و"، "في"، "على"، "من"، إلخ.  
-إزالة هذه الكلمات تساعد النماذج على التركيز على الكلمات المهمة فقط.
+# 🛑 إزالة الكلمات الشائعة (Stop Words) للنص العربي باستخدام NLTK
+
+في معالجة اللغة الطبيعية (NLP)، تعتبر **الكلمات الشائعة (Stop Words)** كلمات متكررة لا تضيف معنى كبير للتحليل مثل:  
+"في"، "من"، "على"، "حول"، إلخ.
+
+إزالة هذه الكلمات تساعد النموذج على التركيز على الكلمات المهمة فقط.
 
 ---
 
-## 🔹 تثبيت مكتبة NLTK وتحميل Stop Words
+## 🔹 المتطلبات
 
-```python
+تأكد من تثبيت مكتبة NLTK:
+
+```bash
+pip install nltk
+
 import nltk
-nltk.download('stopwords')  # تحميل قائمة الكلمات الشائعة
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-🔹 استخدام Stop Words بالعربية
-arabic_stopwords = stopwords.words('arabic')
-print(arabic_stopwords[:10])  # عرض أول 10 كلمات كمثال
+# تحميل الموارد (مرة واحدة فقط)
+# nltk.download('punkt')
+# nltk.download('stopwords')
 
-نتيجة محتملة:
+# Define a sample Arabic text
+arabic_text = "قامت الشركة بإصدار بيانات تفصيلية حول أدائها في الربع الأول من العام الحالي"
 
-['كلاهما', 'كلنا', 'كلما', 'كليكما', 'كليهما', 'كم', 'كما', 'كي', ...]
+# Tokenize the text into words
+words = word_tokenize(arabic_text)
 
-إزالة Stop Words من نص
-text = "كلنا نحب تعلم الذكاء الاصطناعي في الجامعة."
-tokens = word_tokenize(text)
+# Load the Arabic stop words
+stop_words = set(stopwords.words('arabic'))
 
-# إزالة الكلمات الشائعة
-filtered_tokens = [w for w in tokens if w not in arabic_stopwords]
+# Filter out the stop words
+filtered_words = [word for word in words if word not in stop_words]
 
-print(filtered_tokens)
+# Join correctly with space
+filtered_text = ' '.join(filtered_words)
 
-الناتج:
+print(filtered_text)
 
-['نحب', 'تعلم', 'الذكاء', 'الاصطناعي', 'الجامعة', '.']
-🔹 ملاحظات مهمة
+```
+# الناتج المتوقع
 
-إزالة Stop Words تساعد على تقليل الضوضاء في البيانات النصية.
+بعد إزالة كلمات مثل:
 
-لا تحذف دائمًا كل الكلمات الشائعة، لأن بعضها قد يكون مهم في بعض التحليلات (مثل تحليل المشاعر).
+في
 
-يمكن دمج هذه الخطوة مع Tokenization، Stemming، Lemmatization للحصول على نتائج أفضل.
+من
 
-🔹 خطوات مستقبلية
+حول
 
-تطبيق TF-IDF على النص بعد إزالة Stop Words
+سيكون الناتج تقريبًا:
 
-استخدام Word Embeddings مثل Word2Vec أو GloVe
+قامت الشركة بإصدار بيانات تفصيلية أدائها الربع الأول العام الحالي
 
-بناء Classification أو NLP Model مع بيانات نظيفة
+
+
+
+
+# تحسين احترافي أقوى (للـ NLP الحقيقي)
+
+في اللغة العربية الأفضل تعمل:
+
+Normalization (إزالة التشكيل)
+
+إزالة علامات الترقيم
+
+توحيد الألف (أ، إ، آ → ا)
+
+إزالة Stopwords
+
+Stemming أو Lemmatization
+
+
+</div>

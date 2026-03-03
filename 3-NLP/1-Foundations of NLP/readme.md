@@ -180,3 +180,89 @@ Resume Screening NLP
 Question Answering System
 
 Mini LLM App
+
+
+
+==================================
+
+📁 01_text_preprocessing
+
+✅ Tokenization
+
+✅ Stop Words
+
+✅ Stemming
+
+✅ Lemmatization
+
+✅ Regular Expression
+
+✅ Spell Correction
+
+📁 02_feature_engineering
+
+✅ Bag of Words (BoW)
+
+✅ TF-IDF
+
+✅ Text Classification using N-gram and BOW
+
+ملاحظة: N-gram جزء من Feature Engineering لكن التطبيق يدخل في ML
+
+📁 03_classical_ml
+
+✅ Text Classification using N-gram and BOW
+(الجزء الخاص بالموديل نفسه هنا)
+
+📁 04_word_embeddings
+
+✅ Word Embeddings
+
+📁 05_deep_nlp
+
+✅ Recurrent Neural Network (RNN)
+
+✅ Gated Recurrent Unit (GRU)
+
+✅ LSTM
+
+✅ Seq2Seq using LSTM
+
+📁 06_transformers
+
+✅ Transformer Architecture
+
+✅ Why Sin & Cos (Positional Encoding)
+
+✅ Residual Network (في سياق Transformers)
+
+✅ Add & Norm in Transformers
+
+✅ Vision Transformer
+
+📁 07_llm_fundamentals
+
+✅ Say hello to Voiceflow
+
+✅ Chatbot on custom dataset
+
+✅ How to embed chatbot with your website
+
+✅ Develop a car dealership AI chatbot
+
+✅ How to show videos in AI chatbot | voice over
+
+دي تطبيقات LLM + Deployment
+
+📁 projects
+
+🚀 Develop a car dealership AI chatbot
+
+🚀 Full chatbot with video & voice
+
+🚀 Vision Transformer mini project
+
+🚀 Mobile Vision (Depth-wise / Point-wise CNN)
+
+
+

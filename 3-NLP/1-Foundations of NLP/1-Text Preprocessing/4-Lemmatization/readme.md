@@ -1,44 +1,58 @@
-Lemmatization في معالجة اللغة الطبيعية
-🔹 يعني إيه Lemmatization؟
+**Lemmatization في معالجة اللغة الطبيعية (NLP)**
+
+---
+
+**ما هي Lemmatization؟**
 
 Lemmatization هي عملية تحويل الكلمة إلى صورتها الأصلية الصحيحة لغويًا (Lemma).
 
-يعني مش بس نحذف لواحق زي Stemming،
-لكن نرجع الكلمة لشكلها القاموسي الصحيح.
+على عكس Stemming الذي يعتمد على حذف ميكانيكي للواحق، فإن Lemmatization تعتمد على تحليل لغوي وقاموس لإرجاع الكلمة إلى الشكل القاموسي الصحيح.
 
-🔎 الفرق بين Stemming و Lemmatization
-Stemming	Lemmatization
-يعتمد على حذف ميكانيكي	يعتمد على تحليل لغوي
-قد ينتج كلمة غير صحيحة	ينتج كلمة صحيحة لغويًا
-أسرع	أبطأ لكن أدق
-مثال بالإنجليزية
-الكلمة	Stemming	Lemmatization
-playing	play	play
-better	better	good
-running	run	run
+أمثلة:
 
-لاحظ:
+* running → run
+* better → good
+* cats → cat
 
-Stemming مش دايمًا يفهم المعنى
+---
 
-Lemmatization يفهم السياق
+**الفرق بين Stemming و Lemmatization**
 
-🧠 لماذا نستخدم Lemmatization؟
+| Stemming               | Lemmatization               |
+| ---------------------- | --------------------------- |
+| يعتمد على حذف ميكانيكي | يعتمد على تحليل لغوي وقاموس |
+| قد ينتج كلمة غير صحيحة | ينتج كلمة صحيحة لغويًا      |
+| أسرع                   | أبطأ لكن أدق                |
 
-تحسين دقة النماذج
+---
 
-مهم في Chatbots
+**مقارنة عملية**
 
-مهم في Question Answering
+| الكلمة   | Stemming | Lemmatization | الملاحظة                |
+| -------- | -------- | ------------- | ----------------------- |
+| studies  | studi    | study         | Stemming يشوه الكلمة    |
+| studying | studi    | study         | Lemmatizer يرجعها للأصل |
+| children | children | child         | يفهم الجمع غير المنتظم  |
+| better   | better   | good (مع POS) | يحتاج تحديد نوع الكلمة  |
+| running  | run      | run           | كلاهما صحيح             |
+| leaves   | leav     | leaf          | Stemming يقطع فقط       |
+| fishes   | fish     | fish          | Lemmatizer يفهم القاعدة |
 
-مهم في Search Engines
+---
 
-🥇 تطبيق عملي باستخدام NLTK
-Step 1: تحميل WordNet (مرة واحدة)
+**تطبيق عملي باستخدام NLTK**
+
+1. تحميل الموارد (مرة واحدة فقط)
+
+```python
 import nltk
 nltk.download('wordnet')
 nltk.download('omw-1.4')
-Step 2: التطبيق
+```
+
+2. Lemmatization بدون تحديد نوع الكلمة
+
+```python
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 
@@ -50,26 +64,55 @@ tokens = word_tokenize(text)
 lemmas = [lemmatizer.lemmatize(word) for word in tokens]
 
 print(lemmas)
+```
+
 الناتج:
+
+```
 ['running', 'better', 'cat']
+```
 
-لاحظ إن:
+ملاحظة:
 
-cats → cat ✔
+* cats → cat ✔
+* running لم تتحول إلى run ❌
+* better لم تتحول إلى good ❌
 
-running لم تتحول لـ run ❌
+السبب: لم يتم تحديد نوع الكلمة (POS).
 
-لأن لازم نحدد نوع الكلمة (POS).
+---
 
-🥈 Lemmatization مع تحديد نوع الكلمة (أدق)
+**Lemmatization مع تحديد نوع الكلمة (أكثر دقة)**
+
+```python
 from nltk.corpus import wordnet
 
 lemmatizer.lemmatize("running", pos=wordnet.VERB)
+```
 
 الناتج:
 
+```
 run
-🔥 Full Example احترافي
+```
+
+مثال آخر:
+
+```python
+lemmatizer.lemmatize("better", pos=wordnet.ADJ)
+```
+
+الناتج:
+
+```
+good
+```
+
+---
+
+**مثال تطبيقي كامل**
+
+```python
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet
@@ -79,37 +122,69 @@ lemmatizer = WordNetLemmatizer()
 text = "The cats are running better than dogs"
 tokens = word_tokenize(text)
 
-lemmas = [lemmatizer.lemmatize(word, pos=wordnet.VERB) for word in tokens]
+lemmas = []
+
+for word in tokens:
+    lemmas.append(lemmatizer.lemmatize(word, pos=wordnet.VERB))
 
 print(lemmas)
-📌 ماذا عن العربية؟
+```
 
-NLTK لا يدعم Lemmatization عربي جيد.
+في التطبيقات الاحترافية يجب تنفيذ POS Tagging أولًا ثم تمرير النوع المناسب لكل كلمة.
 
-للعربية نستخدم:
+---
 
-CAMeL Tools
+**نص لاختبار الفرق بوضوح**
 
-Farasa
+```python
+text = """
+Relational relationships are relatively related.
+The organization was organizing organized events.
+He was caring and carefully cared for the cared cats.
+"""
+```
 
-Stanza
+نتائج Stemming قد تكون:
 
-لكن دول أكبر شوية في الحجم.
+* relational → relat
+* organization → organ
+* carefully → care
 
-🎯 في LLM الحديثة
+بينما Lemmatization تعطي كلمات منطقية أكثر.
 
-عادة لا نستخدم:
+---
 
-Stemming
+**ماذا عن اللغة العربية؟**
 
-Lemmatization
+مكتبة NLTK لا توفر دعمًا قويًا لـ Lemmatization باللغة العربية.
+يُفضل استخدام أدوات متخصصة مثل:
 
-لأننا نستخدم:
+* CAMeL Tools
+* Farasa
+* Stanza
 
-Subword Tokenization (BPE)
+---
 
-WordPiece
+**ماذا عن نماذج اللغة الحديثة (LLMs)؟**
 
-SentencePiece
+في النماذج الحديثة غالبًا لا يتم استخدام:
 
-لكن في NLP التقليدي، Lemmatization مهم جدًا.
+* Stemming
+* Lemmatization
+
+بسبب الاعتماد على تقنيات Subword Tokenization مثل:
+
+* BPE
+* WordPiece
+* SentencePiece
+
+لكن في أنظمة NLP التقليدية، تظل Lemmatization خطوة مهمة لتحسين جودة البيانات ودقة النماذج.
+
+---
+
+**الخلاصة**
+
+* Lemmatization أدق لغويًا من Stemming
+* تحتاج تحديد نوع الكلمة (POS) للحصول على أفضل نتيجة
+* مهمة جدًا في NLP التقليدي
+* أقل استخدامًا في نماذج اللغة الكبيرة الحديثة
